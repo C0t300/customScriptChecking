@@ -40,7 +40,11 @@ if clear.upper() == "Y":
     if keep.upper() == "N":
         sys.exit()
 
-inFolders = True # True if you want to check in folders, only supports one folder deep
+inFolders = input("Do you want to check in folders? It only supports one folder deep. [y/N]: ")
+if inFolders.upper() == "Y":
+    inFolders = True
+else:
+    inFolders = False
 
 #Change with inputs, should be strings with \n for different inputs
 inn = ["""3
@@ -107,3 +111,40 @@ if inFolders:
                         fp.write("outputs: \n")
                         fp.write(formatout(outc))
                         fp.close()
+else:
+    index = 0
+    for i, checksc in zip(inn, out):
+        checks = copy.deepcopy(checksc)
+        index += 1
+        proc = subprocess.run(["python3", pythonScript], text=True, input=i, capture_output=True)
+        if proc.returncode != 0:
+            fp = open("ERR.txt", "w")
+            fp.write(proc.stderr)
+            fp.close()
+        retorno = proc.stdout.splitlines()
+        retorno = list(filter(None, retorno))
+        clone = checks.copy()
+        length = len(checks)
+        for linea in retorno:
+            if any(i.isdigit() for i in linea):
+                numbers = re.findall("\d+", linea)
+                for n in numbers:
+                    if n in checks:
+                        checks.remove(n)
+
+        if len(checks) > 0:
+            passed = False
+            fp = open("bad" + str(index) + ".txt", "w")
+            fp.write("checks should be: " + str(clone))
+            fp.write("\n")
+            fp.write("but checks is: " + str(checks))
+            fp.close()
+
+    if passed:
+        fp = open("testspassed.txt", "w")
+        fp.write("All tests passed\n")
+        fp.write("inputs: \n")
+        fp.write(formatin(inn))
+        fp.write("outputs: \n")
+        fp.write(formatout(outc))
+        fp.close()
