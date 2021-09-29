@@ -63,6 +63,8 @@ if len(inn) != len(out):
     print("Length of inn and out is not the same")
     sys.exit(1)
 
+passed = True
+
 if inFolders:
     cwd = Path.cwd()
     for p in cwd.iterdir():
@@ -71,8 +73,6 @@ if inFolders:
                 if pys.suffix == ".py":
                     os.chdir(p)
                     pythonScript = pys
-
-                    passed = True
 
                     index = 0
 
