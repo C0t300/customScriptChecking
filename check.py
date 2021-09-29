@@ -63,8 +63,6 @@ if len(inn) != len(out):
     print("Length of inn and out is not the same")
     sys.exit(1)
 
-passed = True
-
 if inFolders:
     cwd = Path.cwd()
     for p in cwd.iterdir():
@@ -73,12 +71,13 @@ if inFolders:
                 if pys.suffix == ".py":
                     os.chdir(p)
                     pythonScript = pys
-
+                    passed = True
                     index = 0
 
                     for i, checksc in zip(inn, out):
                         checks = copy.deepcopy(checksc)
                         index += 1
+                        print(pys.name + " - " + str(index) + " of " + str(len(inn)))
                         proc = subprocess.run(["python3", pythonScript], text=True, input=i, capture_output=True)
                         if proc.returncode != 0:
                             fp = open("ERR.txt", "w")
@@ -112,10 +111,12 @@ if inFolders:
                         fp.write(formatout(outc))
                         fp.close()
 else:
+    passed = True
     index = 0
     for i, checksc in zip(inn, out):
         checks = copy.deepcopy(checksc)
         index += 1
+        print(str(index) + " of " + str(len(inn)))
         proc = subprocess.run(["python3", pythonScript], text=True, input=i, capture_output=True)
         if proc.returncode != 0:
             fp = open("ERR.txt", "w")
