@@ -83,7 +83,7 @@ if inFolders:
                         print(pys.name + " - " + str(index) + " of " + str(len(inn)))
                         proc = subprocess.run(["python3", pythonScript], text=True, input=i, capture_output=True)
                         if proc.returncode != 0:
-                            fp = open("ERR.txt", "w")
+                            fp = open("ERR" + str(index) + ".txt", "w")
                             fp.write(proc.stderr)
                             fp.close()
                         retorno = proc.stdout.splitlines()
@@ -122,7 +122,7 @@ else:
         print(str(index) + " of " + str(len(inn)))
         proc = subprocess.run(["python3", pythonScript], text=True, input=i, capture_output=True)
         if proc.returncode != 0:
-            fp = open("ERR.txt", "w")
+            fp = open("ERR" + str(index) + ".txt", "w")
             fp.write(proc.stderr)
             fp.close()
         retorno = proc.stdout.splitlines()
