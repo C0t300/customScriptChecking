@@ -22,6 +22,24 @@ def formatout(o):
         s += buf + "\n"
     return s
 
+clear = input("Clean all txt files? (This will erase all .txt files that contain bad or ERR o passed in this folder) [y/N]: ")
+deletes = ["bad", "testspassed", "ERR"]
+if clear.upper() == "Y":
+    cwd = Path.cwd()
+    for p in cwd.iterdir():
+        if p.is_file():
+            if p.suffix == ".txt" and any(x in p.name for x in deletes):
+                p.unlink()
+        elif p.is_dir():
+            for pp in p.iterdir():
+                if pp.is_file():
+                    if pp.suffix == ".txt" and any(x in pp.name for x in deletes):
+                        pp.unlink()
+
+    keep = input(".txt deleted. Do you want to keep going with the checking? [Y/n]: ")
+    if keep.upper() == "N":
+        sys.exit()
+
 inFolders = True # True if you want to check in folders, only supports one folder deep
 
 #Change with inputs, should be strings with \n for different inputs
