@@ -98,7 +98,7 @@ if inFolders:
                         if len(checks) > 0:
                             passed = False
                             fp = open("bad" + str(index) + ".txt", "w")
-                            fp.write("checks should be: " + str(clone))
+                            fp.write("checks should be empty, check was: " + str(clone))
                             fp.write("\n")
                             fp.write("but checks is: " + str(checks))
                             fp.close()
@@ -135,7 +135,7 @@ else:
         if len(checks) > 0:
             passed = False
             fp = open("bad" + str(index) + ".txt", "w")
-            fp.write("checks should be: " + str(clone))
+            fp.write("checks should be empty, check was: " + str(clone))
             fp.write("\n")
             fp.write("but checks is: " + str(checks))
             fp.close()
