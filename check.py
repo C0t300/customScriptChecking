@@ -59,6 +59,8 @@ outc = copy.deepcopy(out)
 
 if not inFolders:
     pythonScript = input("Enter python script name: ")
+    if pythonScript == "":
+        pythonScript = "example.py"
 
 if len(inn) != len(out):
     print("Length of inn and out is not the same")
