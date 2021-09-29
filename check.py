@@ -57,7 +57,8 @@ inn = ["""3
 out = [["6", "0"], ["26", "24"]]
 outc = copy.deepcopy(out)
 
-pythonScript = "example.py" #Only used if inFolders is False
+if not inFolders:
+    pythonScript = input("Enter python script name: ")
 
 if len(inn) != len(out):
     print("Length of inn and out is not the same")
