@@ -139,6 +139,11 @@ else:
             fp.write("\n")
             fp.write("but checks is: " + str(checks))
             fp.close()
+        else:
+            fp = open("test" + str(index) + ".txt", "w")
+            fp.write("Output test " + str(index) + " passed. \n")
+            fp.write(proc.stdout)
+            fp.close()
 
     if passed:
         fp = open("testspassed.txt", "w")
