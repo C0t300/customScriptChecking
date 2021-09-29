@@ -46,7 +46,7 @@ if inFolders:
     for p in cwd.iterdir():
         if p.is_dir():
             for pys in p.iterdir():
-                if pys.with_suffix('.py'):
+                if pys.suffix == ".py":
                     os.chdir(p)
                     pythonScript = pys
 
