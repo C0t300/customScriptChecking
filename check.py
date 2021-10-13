@@ -81,29 +81,37 @@ if inFolders:
                         checks = copy.deepcopy(checksc)
                         index += 1
                         print(pys.name + " - " + str(index) + " of " + str(len(inn)))
-                        proc = subprocess.run(["python3", pythonScript], text=True, input=i, capture_output=True)
-                        if proc.returncode != 0:
+                        try:
+                            proc = subprocess.run(["python3", pythonScript], text=True, input=i, capture_output=True)
+                            if proc.returncode != 0:
+                                fp = open("ERR" + str(index) + ".txt", "w")
+                                fp.write(proc.stderr)
+                                fp.close()
+                            retorno = proc.stdout.splitlines()
+                            retorno = list(filter(None, retorno))
+                            clone = checks.copy()
+                            length = len(checks)
+                            for linea in retorno:
+                                if any(i.isdigit() for i in linea):
+                                    numbers = re.findall("\d+", linea)
+                                    for n in numbers:
+                                        if n in checks:
+                                            checks.remove(n)
+
+                            if len(checks) > 0:
+                                passed = False
+                                fp = open("bad" + str(index) + ".txt", "w")
+                                fp.write("checks should be empty, check was: " + str(clone))
+                                fp.write("\n")
+                                fp.write("but checks is: " + str(checks))
+                                fp.close()
+                            
+                        except subprocess.TimeoutExpired:
                             fp = open("ERR" + str(index) + ".txt", "w")
+                            fp.write("Timeout.\n")
                             fp.write(proc.stderr)
                             fp.close()
-                        retorno = proc.stdout.splitlines()
-                        retorno = list(filter(None, retorno))
-                        clone = checks.copy()
-                        length = len(checks)
-                        for linea in retorno:
-                            if any(i.isdigit() for i in linea):
-                                numbers = re.findall("\d+", linea)
-                                for n in numbers:
-                                    if n in checks:
-                                        checks.remove(n)
-
-                        if len(checks) > 0:
                             passed = False
-                            fp = open("bad" + str(index) + ".txt", "w")
-                            fp.write("checks should be empty, check was: " + str(clone))
-                            fp.write("\n")
-                            fp.write("but checks is: " + str(checks))
-                            fp.close()
 
                     if passed:
                         fp = open("testspassed.txt", "w")
