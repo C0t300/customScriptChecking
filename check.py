@@ -50,10 +50,9 @@ else:
 inn = ["""3
 3""",
 """25
-1
-"""]
+1"""]
 
-#Change with outputs, should be lists of lists for things you might wait from the program
+#Change with outputs, should be lists of lists for things you might expect from the program
 out = [["6", "0"], ["26", "24"]]
 outc = copy.deepcopy(out)
 
@@ -82,7 +81,7 @@ if inFolders:
                         index += 1
                         print(pys.name + " - " + str(index) + " of " + str(len(inn)))
                         try:
-                            proc = subprocess.run(["python3", pythonScript], text=True, input=i, capture_output=True)
+                            proc = subprocess.run(["python3", pythonScript], text=True, input=i, capture_output=True, timeout=5)
                             if proc.returncode != 0:
                                 fp = open("ERR" + str(index) + ".txt", "w")
                                 fp.write(proc.stderr)
