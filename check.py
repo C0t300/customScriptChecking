@@ -56,6 +56,13 @@ inn = ["""3
 out = [["6", "0"], ["26", "24"]]
 outc = copy.deepcopy(out)
 
+numberBased = True
+for test in out:
+    for i in test:
+        if not i.isdigit():
+            numberBased = False
+            break
+
 if not inFolders:
     pythonScript = input("Enter python script name: ")
     if pythonScript == "":
@@ -90,12 +97,18 @@ if inFolders:
                             retorno = list(filter(None, retorno))
                             clone = checks.copy()
                             length = len(checks)
-                            for linea in retorno:
-                                if any(i.isdigit() for i in linea):
-                                    numbers = re.findall("\d+", linea)
-                                    for n in numbers:
-                                        if n in checks:
-                                            checks.remove(n)
+                            if numberBased:
+                                for linea in retorno:
+                                    if any(i.isdigit() for i in linea):
+                                        numbers = re.findall("\d+", linea)
+                                        for n in numbers:
+                                            if n in checks:
+                                                checks.remove(n)
+                            else:
+                                for linea in retorno:
+                                    for check in checks:
+                                        if check in linea:
+                                            checks.remove(check)
 
                             if len(checks) > 0:
                                 passed = False
@@ -136,12 +149,18 @@ else:
         retorno = list(filter(None, retorno))
         clone = checks.copy()
         length = len(checks)
-        for linea in retorno:
-            if any(i.isdigit() for i in linea):
-                numbers = re.findall("\d+", linea)
-                for n in numbers:
-                    if n in checks:
-                        checks.remove(n)
+        if numberBased:
+            for linea in retorno:
+                if any(i.isdigit() for i in linea):
+                    numbers = re.findall("\d+", linea)
+                    for n in numbers:
+                        if n in checks:
+                            checks.remove(n)
+        else:
+            for linea in retorno:
+                for check in checks:
+                    if check in linea:
+                        checks.remove(check)
 
         if len(checks) > 0:
             passed = False
