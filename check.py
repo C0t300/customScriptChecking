@@ -105,10 +105,14 @@ if inFolders:
                                             if n in checks:
                                                 checks.remove(n)
                             else:
+                                found = []
                                 for linea in retorno:
                                     for check in checks:
                                         if check in linea:
-                                            checks.remove(check)
+                                            found.append(check)
+                                for f in found:
+                                    if f in checks:
+                                        checks.remove(f)
 
                             if len(checks) > 0:
                                 passed = False
@@ -157,10 +161,14 @@ else:
                         if n in checks:
                             checks.remove(n)
         else:
+            found = []
             for linea in retorno:
                 for check in checks:
                     if check in linea:
-                        checks.remove(check)
+                        found.append(check)
+            for f in found:
+                if f in checks:
+                    checks.remove(f)
 
         if len(checks) > 0:
             passed = False
